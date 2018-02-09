@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <title>Robert Svensson</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/contentful@latest/dist/contentful.browser.min.js"></script>
+  <script src="https://cdn.rawgit.com/showdownjs/showdown/1.8.6/dist/showdown.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+
+<body>
+  <div id="topMargin">
+
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-sm" id="intro">
+
+      </div>
+      <div class="col-sm" class="firstColumn">
+        <img src="http://images.contentful.com/ytuht21pyqe9/PNIt8P1fk4Sc4o0GYCAEW/6d6dc0a9159aacb81b60da0bae708de4/robertsvensson.jpg" class="img-fluid rounded" alt="Robert Svensson">
+      </div>
+      <div class="col-sm" class="secondColumn">
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid">
+
+    <h1 class="text-center centeredHeader display-2">About Me</h1>
+
+  </div>
+
+  <div class="container">
+    <div class="row justify-content-md-center">
+      <div class="col col-xl-8" id="mainText">
+
+
+      </div>
+
+    </div>
+
+  </div>
+<div class="whiteSpacer">
+  <div class="container-fluid">
+
+    <h1 class="text-center centeredHeader display-2">Experience</h1>
+
+  </div>
+<div class="whiteSpacer">
+
+</div>
+  <div class="container">
+    <div class="row">
+      <div id="recentWorkExperiencePlaceholder">
+
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="container-fluid">
+
+    <h1 class="text-center centeredHeader display-2">Other Information</h1>
+
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div id="otherInformationPlaceholder">
+
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    var client = contentful.createClient({
+      space: 'ytuht21pyqe9',
+      accessToken: 'c5c5bcf35e148140ba0475e3edbcd534ae6aba6376f2c2604be0cc73b7f1b9bf'
+    })
+
+    var converter = new showdown.Converter();
+
+    client.getEntry('mWeEqDEw1iWw4c0IE0QoM')
+      .then(function(entry) {
+
+
+        document.getElementById("intro").innerHTML = converter.makeHtml(entry.fields.introText);
+        document.getElementById("mainText").innerHTML = converter.makeHtml(entry.fields.mainText);
+
+        for (value in entry.fields.workExperiance) {
+
+          client.getEntry(entry.fields.workExperiance[value].sys.id)
+            .then(function(entry) {
+              var jobTitle = entry.fields.jobTitle;
+              var startDate = entry.fields.startDate;
+              var endDate = entry.fields.endDate;
+              var jobDescription = entry.fields.jobDescription;
+
+              $("#recentWorkExperiencePlaceholder").append('<div class="row"><div class="col-sm workExperiancename">' + jobTitle + '<br>' + startDate + ' — ' + endDate + '</div><div class="col-sm jobDescription">' + converter.makeHtml(
+                jobDescription) + '</div></div><div class="whiteSpacer"></div>');
+
+            })
+        }
+
+        for (value in entry.fields.additionalInfo) {
+
+          client.getEntry(entry.fields.additionalInfo[value].sys.id)
+            .then(function(entry) {
+              var name = entry.fields.name;
+              var value = entry.fields.value;
+
+
+              $("#otherInformationPlaceholder").append('<div class="row"><div class="additionalInfoName col-xl-6">' + name + '</div><div class="col-xl-6 additionalInfoValue">' + converter.makeHtml(
+                value) + '</div></div><div class="whiteSpacer"></div>');
+
+            })
+        }
+
+      })
+  </script>
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+
+</html>
