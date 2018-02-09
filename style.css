@@ -18,7 +18,7 @@ body{
 
 .centeredHeader{
   text-align: center;
-
+  word-break: break-all;
 }
 
 .whiteSpacer{
